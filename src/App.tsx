@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import "./App.css";
 import charDetailed from "./interfaces";
+import CharCard from "./components/CharCard";
+import Search from "./components/Search";
 
 function App() {
   const [charName, setCharName] = useState("")
@@ -16,16 +18,14 @@ function App() {
       <button onClick={searchChar}>Search</button>
 
       <p>You have searched for {charName}</p>
-      {charInfo?.name}
-      {charInfo?.affiliation}
 
+      <CharCard {...charInfo} />
     </div>
   )
 
   function searchChar() {
-    axios.get(GENSHIN_URL + "characters/" + charName).then((res => {
-      console.log(JSON.parse(JSON.stringify(res.data)))
-      setCharInfo(JSON.parse(JSON.stringify(res.data)))
+    axios.get(GENSHIN_URL + "characters/" + charName).then((response => {
+      setCharInfo(JSON.parse(JSON.stringify(response.data)))
     }))
   }
 
