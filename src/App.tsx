@@ -4,7 +4,7 @@ import "./App.css";
 import charDetailed from "./interfaces";
 import CharCard from "./components/CharCard";
 import listOfChars from "./components/CharList";
-import { Grid, IconButton, Autocomplete, TextField, Box } from "@mui/material"
+import { Grid, IconButton, Autocomplete, TextField, Box, Typography } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 
 function App() {
@@ -17,8 +17,11 @@ function App() {
     <React.Fragment>
 
       <Grid container sx={{ display: 'flex', flexDirection: 'row', marginY: 'auto', minHeight: '100vh' }}>
-        <Grid item md={4} sx={{ margin: '0 auto auto 0', height: '100%', textAlign: 'center' }}>
-          <h1>Genshin Impact</h1>
+        <Grid item md={4} sx={{ marginY: '200px', height: '100%', textAlign: 'center' }}>
+          <Typography>
+            <h1>Genshin Impact</h1>
+          </Typography>
+
 
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
@@ -31,7 +34,7 @@ function App() {
               id="search"
               options={listOfChars}
               sx={{ width: 300, marginLeft: 'auto' }}
-              renderInput={(params) => <TextField {...params} label="Select Character" />}
+              renderInput={(params) => <TextField {...params} label="Input Character Name" />}
             />
             <IconButton onClick={searchChar} sx={{ marginRight: 'auto' }}>
               <SearchIcon></SearchIcon>
@@ -42,7 +45,7 @@ function App() {
 
         <Grid item md={8} sx={{ margin: 'auto', height: '100%' }}>
           {charInfo === undefined || charInfo === null ? (
-            <CharCard image="" name="Please Select a Valid Character" />
+            null
           ) : (
             <CharCard {...charInfo} image={charImg} />
           )}
@@ -63,7 +66,7 @@ function App() {
       })).catch(() => {
         setCharInfo(undefined)
       })
-      setCharImg(GENSHIN_URL + "characters/" + temp.toLowerCase() + "/card")
+      setCharImg(GENSHIN_URL + "characters/" + temp.toLowerCase() + "/gacha-card")
     }
   }
 

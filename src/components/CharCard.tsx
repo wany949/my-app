@@ -1,52 +1,76 @@
 import React from 'react'
 import charDetailed from '../interfaces'
-import { Box, Rating } from "@mui/material"
+import { Box, Grid, Rating } from "@mui/material"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import CakeIcon from '@mui/icons-material/Cake';
 
 export default function charCard(char: charDetailed) {
     const colour = switchColour(char.vision)
     return (
         <React.Fragment>
 
-            <Card sx={{ display: 'flex', flexDirection: 'row', border: 5, borderColor: colour, marginRight: '10px' }}>
+            <Card sx={{
+                display: 'flex', flexDirection: 'row', border: 5, borderColor: colour, marginRight: '10px',
+                backgroundImage: `linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 40%, ${colour} 90%);`
+            }}>
                 <Box sx={{ display: 'flex' }}>
                     {char.name === undefined || char.image === "" ? (
                         ""
                     ) : (
                         <CardMedia
                             component='img'
-                            height="700rem"
+                            height="800rem"
                             src={char.image}>
-
                         </CardMedia>
                     )}
 
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent>
-                        <Typography variant='h3'>
-                            {char.name}
-                        </Typography>
-                        <Typography component='div'>
-                            {char.rarity === 5 || char.rarity === 4 ? (
-                                <Rating name="read-only" value={char.rarity} readOnly />
-                            ) : (
-                                ""
-                            )}
-                        </Typography>
+                        <Grid container>
+                            <Grid item md={8}>
+                                <Typography variant='h3'>
+                                    {char.name}
+                                    <Typography variant='caption'>
+                                        {'\t'} {char.vision} Vision User
+                                    </Typography>
 
-                        <Typography variant='subtitle1' color='text.secondary' component='div'>
-                            {char.affiliation} <br />
-                            {char.nation}
-                        </Typography>
+                                </Typography>
+                                <Typography component='div'>
+                                    {char.rarity === 5 || char.rarity === 4 ? (
+                                        <Rating name="read-only" value={char.rarity} readOnly />
+                                    ) : (
+                                        ""
+                                    )}
+                                </Typography>
+
+                                <Typography variant='subtitle1' color='text.secondary' component='div'>
+                                    {char.affiliation} <br />
+                                    {char.nation}
+                                </Typography>
+                            </Grid>
+                            <Grid item md={4} sx={{ margin: 'auto auto 0 auto' }}>
+                                <Typography component='div' variant='subtitle1'>
+                                    <CakeIcon></CakeIcon>
+                                    <Typography variant='subtitle1' color='text.secondary'>
+                                        {char.birthday} <br />
+                                        {char.constellation}
+                                    </Typography>
+
+                                </Typography>
+
+                            </Grid>
+                        </Grid>
+
 
                         <Typography variant='body1' component='div'>
                             <hr style={{ width: '50vw', margin: '0px' }} />
                             <br />
                             <br />
+
                             {char.description}
                         </Typography>
 
