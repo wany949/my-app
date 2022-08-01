@@ -25,7 +25,6 @@ function App() {
             <Autocomplete
               onInputChange={(event, value) => {
                 setCharName(value)
-                console.log(value)
               }}
               freeSolo
               clearOnBlur={false}
