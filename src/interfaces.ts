@@ -8,6 +8,7 @@ interface charDetailed {
     vision?: string
     constellation?: string
     weapon?: string
+    image: string
 }
 
 export default charDetailed
