@@ -1,52 +1,74 @@
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import charDetailed from "./interfaces";
 import CharCard from "./components/CharCard";
-import Search from "./components/Search";
-import { Grid, Paper, Container } from "@mui/material"
+import listOfChars from "./components/CharList";
+import { Grid, IconButton, Autocomplete, TextField, Box } from "@mui/material"
+import SearchIcon from '@mui/icons-material/Search';
 
 function App() {
-  const [charName, setCharName] = useState("")
+  const [charName, setCharName] = useState<String | null>("")
   const [charInfo, setCharInfo] = useState<charDetailed | undefined>(undefined)
   const [charImg, setCharImg] = useState("")
   const GENSHIN_URL = "https://api.genshin.dev/"
 
   return (
-    <div>
-      <h1>Genshin Impact</h1>
-      <label>Which Character are you looking for? </label> <br />
-      <input type="text" id="char-name" name="char-name" onChange={e => { setCharName(e.target.value) }} />
-      <button onClick={searchChar}>Search</button>
+    <React.Fragment>
 
-      <p>You have searched for {charName}</p>
+      <Grid container sx={{ display: 'flex', flexDirection: 'row', marginY: 'auto', minHeight: '100vh' }}>
+        <Grid item md={4} sx={{ margin: '0 auto auto 0', height: '100%', textAlign: 'center' }}>
+          <h1>Genshin Impact</h1>
 
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="stretch"
-      >
-        <Grid item md={6}>
-          <Search />
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+
+            <Autocomplete
+              onInputChange={(event, value) => {
+                setCharName(value)
+                console.log(value)
+              }}
+              freeSolo
+              clearOnBlur={false}
+              id="search"
+              options={listOfChars}
+              sx={{ width: 300, marginLeft: 'auto' }}
+              renderInput={(params) => <TextField {...params} label="Select Character" />}
+            />
+            <IconButton onClick={searchChar} sx={{ marginRight: 'auto' }}>
+              <SearchIcon></SearchIcon>
+            </IconButton>
+          </Box>
+
         </Grid>
-        <Grid item md={6}>
-          <CharCard {...charInfo} image={charImg} />
+
+        <Grid item md={8} sx={{ margin: 'auto', height: '100%' }}>
+          {charInfo === undefined || charInfo === null ? (
+            <CharCard image="" name="Please Select a Valid Character" />
+          ) : (
+            <CharCard {...charInfo} image={charImg} />
+          )}
+
         </Grid>
 
       </Grid>
 
-    </div>
+    </React.Fragment>
   )
 
   function searchChar() {
-    const temp = charName.replace(/\s+/g, '-').toLowerCase();
-    axios.get(GENSHIN_URL + "characters/" + temp).then((response => {
-      setCharInfo(JSON.parse(JSON.stringify(response.data)))
-      console.log(JSON.parse(JSON.stringify(response.data)))
-    }))
-    setCharImg(GENSHIN_URL + "characters/" + temp.toLowerCase() + "/card")
+    if (charName != null) {
+      const temp = charName.replace(/\s+/g, '-').toLowerCase();
+      axios.get(GENSHIN_URL + "characters/" + temp).then((response => {
+        setCharInfo(JSON.parse(JSON.stringify(response.data)))
+        console.log(JSON.parse(JSON.stringify(response.data)))
+      })).catch(() => {
+        setCharInfo(undefined)
+      })
+      setCharImg(GENSHIN_URL + "characters/" + temp.toLowerCase() + "/card")
+    }
   }
+
+
 }
 
 

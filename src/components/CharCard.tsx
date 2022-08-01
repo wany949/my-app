@@ -1,54 +1,50 @@
 import React from 'react'
 import charDetailed from '../interfaces'
-import { Grid, Paper, Container, Box } from "@mui/material"
+import { Box, Rating } from "@mui/material"
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import StarIcon from '@mui/icons-material/Star';
-import Icon from '@mui/material/Icon';
-import { yellow } from '@mui/material/colors';
 
 export default function charCard(char: charDetailed) {
-    const createStars = (n: number) => {
-        let stars = []
-        for (let i = 0; i < n; i++) {
-            stars.push(<StarIcon sx={{ color: yellow[500] }}></StarIcon>)
-        }
-        return stars
-    }
+    const colour = switchColour(char.vision)
     return (
         <React.Fragment>
-            <Card sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Box sx={{ display: 'flex' }}>
-                    <CardMedia
-                        component='img'
-                        height="500rem"
-                        src={char.image}>
 
-                    </CardMedia>
+            <Card sx={{ display: 'flex', flexDirection: 'row', border: 5, borderColor: colour, marginRight: '10px' }}>
+                <Box sx={{ display: 'flex' }}>
+                    {char.name === undefined || char.image === "" ? (
+                        ""
+                    ) : (
+                        <CardMedia
+                            component='img'
+                            height="700rem"
+                            src={char.image}>
+
+                        </CardMedia>
+                    )}
+
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent>
                         <Typography variant='h3'>
                             {char.name}
                         </Typography>
-                        <Typography>
+                        <Typography component='div'>
                             {char.rarity === 5 || char.rarity === 4 ? (
-                                createStars(char.rarity)
+                                <Rating name="read-only" value={char.rarity} readOnly />
                             ) : (
-                                <p></p>
+                                ""
                             )}
                         </Typography>
 
-                        <Typography variant='subtitle1' color='text.secondary'>
+                        <Typography variant='subtitle1' color='text.secondary' component='div'>
                             {char.affiliation} <br />
                             {char.nation}
                         </Typography>
-                        <Typography variant='body1'>
-                            <hr />
+
+                        <Typography variant='body1' component='div'>
+                            <hr style={{ width: '50vw', margin: '0px' }} />
                             <br />
                             <br />
                             {char.description}
@@ -62,6 +58,23 @@ export default function charCard(char: charDetailed) {
         </React.Fragment >
 
     )
+
+    function switchColour(vision: string | undefined) {
+        switch (vision) {
+            case 'Anemo':
+                return '#acfce6'
+            case 'Hydro':
+                return '#89c3f0'
+            case 'Electro':
+                return '#cda9fc'
+            case 'Pyro':
+                return '#ff6363'
+            case 'Geo':
+                return '#fac878'
+            case 'Cryo':
+                return '#7cbbeb'
+        }
+    }
 
 
 }
