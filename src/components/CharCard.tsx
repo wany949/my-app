@@ -9,6 +9,7 @@ import CakeIcon from '@mui/icons-material/Cake';
 
 export default function charCard(char: charDetailed) {
     const colour = switchColour(char.vision)
+    const vision = switchVision(char.vision)
     return (
         <React.Fragment>
 
@@ -34,14 +35,16 @@ export default function charCard(char: charDetailed) {
                             <Grid item md={8}>
                                 <Typography variant='h3'>
                                     {char.name}
-                                    <Typography variant='caption'>
-                                        {'\t'} {char.vision} Vision User
-                                    </Typography>
-
+                                    <img src={vision} alt={char.vision} style={{ height: "30px", marginLeft: '10px' }} />
                                 </Typography>
                                 <Typography component='div'>
                                     {char.rarity === 5 || char.rarity === 4 ? (
-                                        <Rating name="read-only" value={char.rarity} readOnly />
+                                        <React.Fragment>
+                                            <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+                                                <Rating name="read-only" value={char.rarity} readOnly /> ● {char.weapon}
+                                            </Typography>
+                                        </React.Fragment>
+
                                     ) : (
                                         ""
                                     )}
@@ -70,7 +73,6 @@ export default function charCard(char: charDetailed) {
                             <hr style={{ width: '50vw', margin: '0px' }} />
                             <br />
                             <br />
-
                             {char.description}
                         </Typography>
 
@@ -97,6 +99,23 @@ export default function charCard(char: charDetailed) {
                 return '#fac878'
             case 'Cryo':
                 return '#7cbbeb'
+        }
+    }
+
+    function switchVision(vision: string | undefined) {
+        switch (vision) {
+            case 'Anemo':
+                return process.env.PUBLIC_URL + "/Element_Anemo.png";
+            case 'Hydro':
+                return process.env.PUBLIC_URL + "/Element_Hydro.png";
+            case 'Electro':
+                return process.env.PUBLIC_URL + "/Element_Electro.png";
+            case 'Pyro':
+                return process.env.PUBLIC_URL + "/Element_Pyro.png";
+            case 'Geo':
+                return process.env.PUBLIC_URL + "/Element_Geo.png";
+            case 'Cryo':
+                return process.env.PUBLIC_URL + "/Element_Cryo.png";
         }
     }
 
