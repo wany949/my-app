@@ -2,6 +2,8 @@
 
 This is an front-end application which allows you to search up Genshin Characters using an input (including options using autocomplete), then returns a card containing details about the character searched.
 
+To start, please use ```npm start```
+
 ## API Called
 The Genshin Impact API has been used in this project
 
